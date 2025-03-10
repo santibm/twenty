@@ -9,5 +9,7 @@ export type EmailThreadMessage = {
   messageThreadId: string;
   messageParticipants: EmailThreadMessageParticipant[];
   messageThread: MessageThread;
+  imapUid?: string;
+  imapFolder?: string;
   __typename: 'EmailThreadMessage';
 };

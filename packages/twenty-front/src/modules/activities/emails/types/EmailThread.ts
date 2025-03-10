@@ -4,5 +4,7 @@ export type EmailThread = {
   id: string;
   subject: string;
   messages: EmailThreadMessage[];
+  provider: 'GOOGLE' | 'MICROSOFT' | 'IMAP';
+  imapFolder?: string;
   __typename: 'EmailThread';
 };

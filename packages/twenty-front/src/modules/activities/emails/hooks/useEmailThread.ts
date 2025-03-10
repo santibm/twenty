@@ -4,6 +4,8 @@ import { useOpenEmailThreadRightDrawer } from '@/activities/emails/right-drawer/
 import { viewableRecordIdState } from '@/object-record/record-right-drawer/states/viewableRecordIdState';
 import { useRightDrawer } from '@/ui/layout/right-drawer/hooks/useRightDrawer';
 import { isRightDrawerOpenState } from '@/ui/layout/right-drawer/states/isRightDrawerOpenState';
+import { ConnectedAccountProvider } from '@/modules/accounts/types/MessageChannel';
+import { fetchIMAPEmailThread } from '@/modules/activities/emails/utils/fetchIMAPEmailThread';
 
 export const useEmailThread = () => {
   const { closeRightDrawer } = useRightDrawer();
@@ -11,7 +13,7 @@ export const useEmailThread = () => {
 
   const openEmailThread = useRecoilCallback(
     ({ snapshot, set }) =>
-      (threadId: string) => {
+      async (threadId: string, provider: ConnectedAccountProvider) => {
         const isRightDrawerOpen = snapshot
           .getLoadable(isRightDrawerOpenState)
           .getValue();
@@ -26,8 +28,16 @@ export const useEmailThread = () => {
           return;
         }
 
-        openEmailThreadRightDrawer();
-        set(viewableRecordIdState, threadId);
+        if (provider === ConnectedAccountProvider.IMAP) {
+          const emailThread = await fetchIMAPEmailThread(threadId);
+          if (emailThread) {
+            openEmailThreadRightDrawer();
+            set(viewableRecordIdState, emailThread.id);
+          }
+        } else {
+          openEmailThreadRightDrawer();
+          set(viewableRecordIdState, threadId);
+        }
       },
     [closeRightDrawer, openEmailThreadRightDrawer],
   );
