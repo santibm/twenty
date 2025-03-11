@@ -4,7 +4,7 @@ import { useOpenEmailThreadRightDrawer } from '@/activities/emails/right-drawer/
 import { viewableRecordIdState } from '@/object-record/record-right-drawer/states/viewableRecordIdState';
 import { useRightDrawer } from '@/ui/layout/right-drawer/hooks/useRightDrawer';
 import { isRightDrawerOpenState } from '@/ui/layout/right-drawer/states/isRightDrawerOpenState';
-import { ConnectedAccountProvider } from '@/modules/accounts/types/MessageChannel';
+import { ConnectedAccountProvider } from 'twenty-shared';
 import { fetchIMAPEmailThread } from '@/modules/activities/emails/utils/fetchIMAPEmailThread';
 
 export const useEmailThread = () => {
